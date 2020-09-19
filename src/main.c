@@ -62,6 +62,7 @@ void update_frame()
 
         ClearBackground(BLACK);
         DrawFPS(10, 10);
+        DrawText("UP ARROW: accelerate, LEFT/RIGHT: Turn", 10, 50, 20, RED);
 
         BeginMode3D(camera);
         {
@@ -82,8 +83,6 @@ void update_frame()
             }
             car.transform = MatrixRotateY(Vector2Angle((Vector2){particles[1].position.x, particles[1].position.z}, (Vector2){particles[0].position.x, particles[0].position.z}) / RAD2DEG);
             DrawModel(car, particles[0].position, 0.5f, WHITE);
-            // DrawCylinder(particles[1].position, 0.5f, 0.5f, 0.1f, 10, RED);
-
 
             DrawCube((Vector3){0, -0.2, 0}, 100.0f, 0.01f, 100.0f, GREEN);
             DrawCube((Vector3){0.0f, 0, 50.0f}, 100.0f, 0.5f, 0.5f, ORANGE);
