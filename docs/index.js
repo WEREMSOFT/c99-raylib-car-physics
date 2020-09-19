@@ -195,7 +195,7 @@ Module['FS_createPath']('/assets/shaders', 'glsl330', true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/assets/smoke.png", "start": 0, "end": 174546, "audio": 0}, {"filename": "/assets/smoke2.png", "start": 174546, "end": 322966, "audio": 0}, {"filename": "/assets/car.obj", "start": 322966, "end": 4507570, "audio": 0}, {"filename": "/assets/shaders/glsl100/base_lighting.vs", "start": 4507570, "end": 4509148, "audio": 0}, {"filename": "/assets/shaders/glsl100/lighting.fs", "start": 4509148, "end": 4511200, "audio": 0}, {"filename": "/assets/shaders/glsl330/base_lighting.vs", "start": 4511200, "end": 4511977, "audio": 0}, {"filename": "/assets/shaders/glsl330/lighting.fs", "start": 4511977, "end": 4514019, "audio": 0}], "remote_package_size": 4514019, "package_uuid": "39ecd22d-c107-4857-8d00-a945fbc747e9"});
+   loadPackage({"files": [{"filename": "/assets/smoke.png", "start": 0, "end": 174546, "audio": 0}, {"filename": "/assets/smoke2.png", "start": 174546, "end": 322966, "audio": 0}, {"filename": "/assets/car.obj", "start": 322966, "end": 4507570, "audio": 0}, {"filename": "/assets/shaders/glsl100/base_lighting.vs", "start": 4507570, "end": 4509148, "audio": 0}, {"filename": "/assets/shaders/glsl100/lighting.fs", "start": 4509148, "end": 4511200, "audio": 0}, {"filename": "/assets/shaders/glsl330/base_lighting.vs", "start": 4511200, "end": 4511977, "audio": 0}, {"filename": "/assets/shaders/glsl330/lighting.fs", "start": 4511977, "end": 4514019, "audio": 0}], "remote_package_size": 4514019, "package_uuid": "16dc3592-176c-42ca-8844-9b0226740f09"});
   
   })();
   
