@@ -13,7 +13,7 @@ void particle_restrict(particle_t* particle, float restriction_side);
 void particle_fix_distance(particle_t* particle1, particle_t* particle2);
 #endif
 
-#ifdef __INCLUDED_IN_MAIN__
+#ifdef PHYSICS_H_IMPLEMENTATION
 
 void particle_fix_distance(particle_t* particle1, particle_t* particle2){
     Vector3 distance_vector = Vector3Subtract(particle2->position, particle1->position);
@@ -33,5 +33,5 @@ void particle_update(particle_t* particle, float drag){
     particle->position = Vector3Add(particle->position, difference);
     particle->position_last = temp_position;
 }
-
+#undef PHYSICS_H_IMPLEMENTATION
 #endif
