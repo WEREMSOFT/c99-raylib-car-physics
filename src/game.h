@@ -6,20 +6,7 @@
 #include <stdint.h>
 #include "physics.h"
 #include "car.h"
-
-#define MAP_SIZE_X 7
-#define MAP_SIZE_Y 4
-#define MAP_ZOOM 20
-
-#define COLLISION_LEFT 0x01;
-#define COLLISION_RIGHT 0x02;
-#define COLLISION_UP 0x04;
-#define COLLISION_DOWN 0x08;
-
-typedef struct track_cell_t {
-    bool enabled;
-    uint8_t collision_flags;
-} track_cell_t;
+#include "track.h"
 
 typedef struct game_context_t {
     Camera3D camera;
@@ -31,12 +18,11 @@ typedef struct game_context_t {
     Texture2D smoke_texture;
     time_t base_time;
     long double time_spent;
-    track_cell_t map[MAP_SIZE_Y][MAP_SIZE_X];
+    track_cell_t map[MAP_SIZE_Z][MAP_SIZE_X];
 } game_context_t;
 
 void game_init(void);
 void game_fini(void);
-void draw_track(void);
 void game_draw(void);
 void game_update(void);
 void camera_update(Camera* camera, Vector3 target, float target_offset_y, float position_offset_y);
@@ -88,25 +74,7 @@ void game_init(void){
 
     game_context.base_time = clock();
 
-    char map[MAP_SIZE_Y][MAP_SIZE_X] = {
-                        {1, 1, 1, 1, 1, 1, 1},
-                        {1, 0, 0, 0, 0, 0, 1},
-                        {1, 0, 1, 1, 1, 0, 1},
-                        {1, 1, 1, 0, 1, 1, 1},
-                        };
-
-    for(int i = 0; i < MAP_SIZE_Y; i++){
-        for(int j = 0; j < MAP_SIZE_X; j++){
-            if(game_context.map[i][j].enabled = map[i][j]){
-                if(i == 0) game_context.map[i][j].collision_flags |= COLLISION_UP;
-                if(j == 0) game_context.map[i][j].collision_flags |= COLLISION_LEFT;
-                if(i == MAP_SIZE_Y-1) game_context.map[i][j].collision_flags |= COLLISION_DOWN;
-                if(j == MAP_SIZE_X-1) game_context.map[i][j].collision_flags |= COLLISION_RIGHT;
-            }
-
-        }
-    }
-
+    track_init(game_context.map);
 
     camera_init();
 }
@@ -117,16 +85,16 @@ void game_fini(void) {
     UnloadModel(game_context.car);
 }
 
-void draw_track(void) {
+static void draw_track(void) {
     // DrawCube((Vector3){0, -0.2, 0}, 100.0f, 0.01f, 100.0f, GREEN);
     // DrawCube((Vector3){0.0f, 0, 50.0f}, 100.0f, 0.5f, 0.5f, ORANGE);
     // DrawCube((Vector3){0.0f, 0, -50.0f}, 100.0f, 0.5f, 0.5f, ORANGE);
     // DrawCube((Vector3){50.0f, 0, 0.0f}, 0.5f, 0.5f, 100.0f, ORANGE);
     // DrawCube((Vector3){-50.0f, 0, 0.0f}, 0.5f, 0.5f, 100.0f, ORANGE);
-    for(int j = 0; j < MAP_SIZE_Y; j++){
-        for(int i = 0; i < MAP_SIZE_X; i++){
-            if(game_context.map[j][i].enabled){
-                Vector3 position = { j * MAP_ZOOM, -.2f, i * MAP_ZOOM};
+    for(int i = 0; i < MAP_SIZE_Z; i++){
+        for(int j = 0; j < MAP_SIZE_X; j++){
+            if(game_context.map[i][j].enabled){
+                Vector3 position = {j * MAP_ZOOM, -.2f, i * MAP_ZOOM};
                 DrawCube((Vector3)position, 1.0f * MAP_ZOOM, 0.01f, 1.0f * MAP_ZOOM, GREEN);
             }
         }
@@ -134,8 +102,8 @@ void draw_track(void) {
 }
 
 void camera_update(Camera* camera, Vector3 target, float target_offset_y, float position_offset_y){
-    camera->position.x = target.x + 30.0f;
-    camera->position.z = target.z;
+    camera->position.x = target.x;
+    camera->position.z = target.z + 30.0f;
     
     camera->position.y += position_offset_y;
 
@@ -156,7 +124,6 @@ void game_draw(void){
         car_draw(&game_context.car_red);
         car_draw(&game_context.car_blue);
         draw_track();
-
         // DrawGrid(100, 1);
     }
     EndMode3D();
@@ -169,16 +136,16 @@ void game_draw(void){
         car_draw(&game_context.car_red);
         car_draw(&game_context.car_blue);
         draw_track();
-
-        // DrawGrid(100, 1);
     }
     EndMode3D();
     EndScissorMode();
 }
 
 void game_update(void){
-    car_update(&game_context.car_blue);
-    car_update(&game_context.car_red);
+    printf("car z position: %f\n", game_context.car_red.particle_head.position.z);
+    printf("car x position: %f\n", game_context.car_red.particle_head.position.x);
+    car_update(&game_context.car_blue, game_context.map);
+    car_update(&game_context.car_red, game_context.map);
     
     game_context.camera.fovy += 1.0f * IsKeyDown(KEY_Q);
     game_context.camera.fovy -= 1.0f * IsKeyDown(KEY_E);

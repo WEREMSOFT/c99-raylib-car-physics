@@ -2,6 +2,7 @@
 #define CAR_H
 
 #include <raylib.h>
+#include "track.h"
 
 enum car_controls_e {
     CONTROL_UP,
@@ -21,7 +22,7 @@ typedef struct car_t {
 } car_t;
 
 void car_init(car_t* car, Model model, Color color, unsigned int controls[3]);
-void car_update(car_t* car);
+void car_update(car_t* car, track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]);
 void car_draw(car_t* car);
 #endif
 
@@ -40,7 +41,7 @@ void car_init(car_t* car, Model model, Color color, unsigned int controls[3]){
     car->particle_tail.position.z += 0.1f;
 }
 
-void car_update(car_t* car){
+void car_update(car_t* car, track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]){
 
     car->acceleration = Vector3Zero();
 
@@ -59,8 +60,8 @@ void car_update(car_t* car){
 
     particle_fix_distance(&car->particle_head, &car->particle_tail);
 
-    // particle_restrict(&car->particle_head, 48.5f);
-    // particle_restrict(&car->particle_tail, 48.5f);
+    // particle_restrict(&car->particle_head, 48.5f, track);
+    // particle_restrict(&car->particle_tail, 48.5f, track);
 }
 
 void car_draw(car_t* car){

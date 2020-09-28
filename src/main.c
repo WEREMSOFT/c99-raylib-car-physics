@@ -26,6 +26,10 @@
 
 #define GAME_H_IMPLEMENTATION
 #include "game.h"
+
+#define TRACK_H_IMPLEMENTATION
+#include "track.h"
+
 #include "queue.h"
 
 void update_frame()
