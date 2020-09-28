@@ -195,7 +195,7 @@ Module['FS_createPath']('/assets/shaders', 'glsl330', true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/assets/smoke.png", "start": 0, "end": 174546, "audio": 0}, {"filename": "/assets/smoke2.png", "start": 174546, "end": 322966, "audio": 0}, {"filename": "/assets/car.obj", "start": 322966, "end": 4507570, "audio": 0}, {"filename": "/assets/shaders/glsl100/base_lighting.vs", "start": 4507570, "end": 4509148, "audio": 0}, {"filename": "/assets/shaders/glsl100/lighting.fs", "start": 4509148, "end": 4511200, "audio": 0}, {"filename": "/assets/shaders/glsl330/base_lighting.vs", "start": 4511200, "end": 4511977, "audio": 0}, {"filename": "/assets/shaders/glsl330/lighting.fs", "start": 4511977, "end": 4514019, "audio": 0}], "remote_package_size": 4514019, "package_uuid": "cec58f85-fd45-46aa-8318-d10e0837d71a"});
+   loadPackage({"files": [{"filename": "/assets/smoke.png", "start": 0, "end": 174546, "audio": 0}, {"filename": "/assets/smoke2.png", "start": 174546, "end": 322966, "audio": 0}, {"filename": "/assets/car.obj", "start": 322966, "end": 4507570, "audio": 0}, {"filename": "/assets/shaders/glsl100/base_lighting.vs", "start": 4507570, "end": 4509148, "audio": 0}, {"filename": "/assets/shaders/glsl100/lighting.fs", "start": 4509148, "end": 4511200, "audio": 0}, {"filename": "/assets/shaders/glsl330/base_lighting.vs", "start": 4511200, "end": 4511977, "audio": 0}, {"filename": "/assets/shaders/glsl330/lighting.fs", "start": 4511977, "end": 4514019, "audio": 0}], "remote_package_size": 4514019, "package_uuid": "72f4b55d-0c1f-420f-8d2d-f1da72f56785"});
   
   })();
   
@@ -1429,11 +1429,11 @@ function updateGlobalBufferAndViews(buf) {
 }
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 5287472,
+    STACK_BASE = 5287536,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 44592,
-    DYNAMIC_BASE = 5287472,
-    DYNAMICTOP_PTR = 44432;
+    STACK_MAX = 44656,
+    DYNAMIC_BASE = 5287536,
+    DYNAMICTOP_PTR = 44496;
 
 
 
@@ -1890,7 +1890,7 @@ var ASM_CONSTS = {
 
 
 
-// STATICTOP = STATIC_BASE + 43568;
+// STATICTOP = STATIC_BASE + 43632;
 /* global initializers */  __ATINIT__.push({ func: function() { ___wasm_call_ctors() } });
 
 
@@ -5531,7 +5531,7 @@ var ASM_CONSTS = {
     }
 
   function _emscripten_get_sbrk_ptr() {
-      return 44432;
+      return 44496;
     }
 
   

@@ -59,8 +59,8 @@ void car_update(car_t* car){
 
     particle_fix_distance(&car->particle_head, &car->particle_tail);
 
-    particle_restrict(&car->particle_head, 48.5f);
-    particle_restrict(&car->particle_tail, 48.5f);
+    // particle_restrict(&car->particle_head, 48.5f);
+    // particle_restrict(&car->particle_tail, 48.5f);
 }
 
 void car_draw(car_t* car){
