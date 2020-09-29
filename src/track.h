@@ -6,7 +6,7 @@
 
 #define MAP_SIZE_X 7
 #define MAP_SIZE_Z 4
-#define MAP_ZOOM 5
+#define MAP_ZOOM 20
 
 #define COLLISION_LEFT 0x01
 #define COLLISION_RIGHT 0x02
@@ -14,8 +14,9 @@
 #define COLLISION_DOWN 0x08
 
 typedef struct track_cell_t {
-    bool enabled;
+    uint8_t enabled;
     uint8_t collision_flags;
+    Rectangle bounds;
 } track_cell_t;
 
 void track_init(track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]);
@@ -25,7 +26,7 @@ void track_init(track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]);
 #ifdef TRACK_H_IMPLEMENTATION
 
 void track_init(track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]){
-        char map[MAP_SIZE_Z][MAP_SIZE_X] = {
+        uint8_t map[MAP_SIZE_Z][MAP_SIZE_X] = {
                         {1, 1, 1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 0, 0, 1},
                         {1, 0, 1, 1, 1, 0, 1},
@@ -34,11 +35,27 @@ void track_init(track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]){
 
     for(int i = 0; i < MAP_SIZE_Z; i++){
         for(int j = 0; j < MAP_SIZE_X; j++){
-            if(track[i][j].enabled = map[i][j]){
-                if(i == 0) track[i][j].collision_flags |= COLLISION_UP;
-                if(j == 0) track[i][j].collision_flags |= COLLISION_LEFT;
-                if(i == MAP_SIZE_Z-1) track[i][j].collision_flags |= COLLISION_DOWN;
-                if(j == MAP_SIZE_X-1) track[i][j].collision_flags |= COLLISION_RIGHT;
+            if((track[i][j].enabled = map[i][j])){
+
+                track[i][j].bounds.x = MAP_ZOOM * (j - 0.49f);
+                track[i][j].bounds.y = MAP_ZOOM * (i - 0.49f);
+                track[i][j].bounds.width = MAP_ZOOM * (j + 0.49f);
+                track[i][j].bounds.height = MAP_ZOOM * (i + 0.49f);
+
+
+                if(i == 0 || !map[i - 1][j])
+                    track[i][j].collision_flags |= COLLISION_UP;
+
+                if(j == 0 || !map[i][j - 1])
+                    track[i][j].collision_flags |= COLLISION_LEFT;
+                
+                if(i == MAP_SIZE_Z-1 || !map[i + 1][j])
+                    track[i][j].collision_flags |= COLLISION_DOWN;
+
+
+                if(j == MAP_SIZE_X-1 || !map[i][j + 1])
+                    track[i][j].collision_flags |= COLLISION_RIGHT;
+
             }
 
         }

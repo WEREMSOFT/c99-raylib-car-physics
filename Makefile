@@ -63,7 +63,7 @@ endif
 # Build Targets
 #//////////////
 
-.PHONY: web test run_% debug_optimized debug_unoptimized print_information create_folder_structure run_html_u run_html_o run_performance_test init_project
+.PHONY: clean_build web test run_% debug_optimized debug_unoptimized print_information create_folder_structure run_html_u run_html_o run_performance_test init_project
 
 all: print_information $(BLD_D)main.$(BIN_EXTENSION) web
 
@@ -71,6 +71,8 @@ main: $(OBJ_FILES)
 	$(CC_COMMAND) -o $(BLD_D)$@.bin $^ $(LINK_LIBS)
 
 web: $(HTML_D)main.html
+
+clean_build: clean main
 
 $(OBJ_D)%.o: $(SRC_D)%.c
 	$(CC_COMMAND) -c -o $@ $^

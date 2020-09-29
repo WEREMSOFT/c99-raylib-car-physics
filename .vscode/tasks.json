@@ -3,10 +3,10 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"label": "C/C++: gcc build active file",
+			"label": "Make: clean build",
 			"command": "make",
 			"args": [
-				"bin/${fileBasenameNoExtension}.bin"
+				"clean_build"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"

@@ -41,8 +41,7 @@ void car_init(car_t* car, Model model, Color color, unsigned int controls[3]){
     car->particle_tail.position.z += 0.1f;
 }
 
-void car_update(car_t* car, track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]){
-
+static void car_update_control(car_t* car){
     car->acceleration = Vector3Zero();
 
     car->acceleration.z += 0.04f * IsKeyDown(car->controls[CONTROL_UP]);
@@ -54,14 +53,21 @@ void car_update(car_t* car, track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]){
     car->acceleration = Vector3RotateByQuaternion(car->acceleration, car->direction);
 
     car->particle_head.position = Vector3Add(car->particle_head.position, car->acceleration);
+}
+
+void car_update(car_t* car, track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]){
+    particle_calculate_cel(&car->particle_head, track);
+    particle_calculate_cel(&car->particle_tail, track);
+
+    car_update_control(car);
 
     particle_update(&car->particle_head, 0.95);
     particle_update(&car->particle_tail, 0.96);
 
     particle_fix_distance(&car->particle_head, &car->particle_tail);
 
-    // particle_restrict(&car->particle_head, 48.5f, track);
-    // particle_restrict(&car->particle_tail, 48.5f, track);
+    particle_restrict(&car->particle_head, 48.5f);
+    particle_restrict(&car->particle_tail, 48.5f);
 }
 
 void car_draw(car_t* car){

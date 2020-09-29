@@ -18,7 +18,7 @@ typedef struct game_context_t {
     Texture2D smoke_texture;
     time_t base_time;
     long double time_spent;
-    track_cell_t map[MAP_SIZE_Z][MAP_SIZE_X];
+    track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X];
 } game_context_t;
 
 void game_init(void);
@@ -74,7 +74,7 @@ void game_init(void){
 
     game_context.base_time = clock();
 
-    track_init(game_context.map);
+    track_init(game_context.track);
 
     camera_init();
 }
@@ -93,9 +93,9 @@ static void draw_track(void) {
     // DrawCube((Vector3){-50.0f, 0, 0.0f}, 0.5f, 0.5f, 100.0f, ORANGE);
     for(int i = 0; i < MAP_SIZE_Z; i++){
         for(int j = 0; j < MAP_SIZE_X; j++){
-            if(game_context.map[i][j].enabled){
+            if(game_context.track[i][j].enabled){
                 Vector3 position = {j * MAP_ZOOM, -.2f, i * MAP_ZOOM};
-                DrawCube((Vector3)position, 1.0f * MAP_ZOOM, 0.01f, 1.0f * MAP_ZOOM, GREEN);
+                DrawCube(position, 1.0f * MAP_ZOOM, 0.01f, 1.0f * MAP_ZOOM, GREEN);
             }
         }
     }
@@ -142,10 +142,8 @@ void game_draw(void){
 }
 
 void game_update(void){
-    printf("car z position: %f\n", game_context.car_red.particle_head.position.z);
-    printf("car x position: %f\n", game_context.car_red.particle_head.position.x);
-    car_update(&game_context.car_blue, game_context.map);
-    car_update(&game_context.car_red, game_context.map);
+    // car_update(&game_context.car_blue, game_context.track);
+    car_update(&game_context.car_red, game_context.track);
     
     game_context.camera.fovy += 1.0f * IsKeyDown(KEY_Q);
     game_context.camera.fovy -= 1.0f * IsKeyDown(KEY_E);
