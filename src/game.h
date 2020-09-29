@@ -142,7 +142,7 @@ void game_draw(void){
 }
 
 void game_update(void){
-    // car_update(&game_context.car_blue, game_context.track);
+    car_update(&game_context.car_blue, game_context.track);
     car_update(&game_context.car_red, game_context.track);
     
     game_context.camera.fovy += 1.0f * IsKeyDown(KEY_Q);
