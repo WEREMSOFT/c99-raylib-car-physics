@@ -84,13 +84,10 @@ void game_fini(void) {
     UnloadTexture(game_context.smoke_texture);
     UnloadModel(game_context.car);
 }
-
+/*
+* the static function are synonims of "private" for the file 
+*/
 static void draw_track(void) {
-    // DrawCube((Vector3){0, -0.2, 0}, 100.0f, 0.01f, 100.0f, GREEN);
-    // DrawCube((Vector3){0.0f, 0, 50.0f}, 100.0f, 0.5f, 0.5f, ORANGE);
-    // DrawCube((Vector3){0.0f, 0, -50.0f}, 100.0f, 0.5f, 0.5f, ORANGE);
-    // DrawCube((Vector3){50.0f, 0, 0.0f}, 0.5f, 0.5f, 100.0f, ORANGE);
-    // DrawCube((Vector3){-50.0f, 0, 0.0f}, 0.5f, 0.5f, 100.0f, ORANGE);
     for(int i = 0; i < MAP_SIZE_Z; i++){
         for(int j = 0; j < MAP_SIZE_X; j++){
             if(game_context.track[i][j].enabled){
@@ -117,6 +114,11 @@ void camera_update(Camera* camera, Vector3 target, float target_offset_y, float 
 void game_draw(void){
     ClearBackground(BLACK);
 
+    /*
+    *  To create the split screen functionality, we need to draw everithing thice.
+    * So, first, we setup the camera and create the scicors settings, to only draw 
+    * in one section of the screen
+    */
     camera_update(&game_context.camera, game_context.car_blue.particle_head.position, -5.0f, 0.f);
     BeginScissorMode(0, 0, WIDTH, HEIGHT/2);
     BeginMode3D(game_context.camera);
@@ -124,11 +126,14 @@ void game_draw(void){
         car_draw(&game_context.car_red);
         car_draw(&game_context.car_blue);
         draw_track();
-        // DrawGrid(100, 1);
     }
     EndMode3D();
     EndScissorMode();
 
+    /*
+    * Now we draw the bottom part of the split screen. Note the slight difference in the camera to make the 
+    * cameras look the same.
+    */
     camera_update(&game_context.camera, game_context.car_red.particle_head.position, +8.0f, 0.f);
     BeginScissorMode(0, HEIGHT/2, WIDTH, HEIGHT/2);
     BeginMode3D(game_context.camera);
@@ -145,6 +150,7 @@ void game_update(void){
     car_update(&game_context.car_blue, game_context.track);
     car_update(&game_context.car_red, game_context.track);
     
+    // This code allows to handle how whide is the len on the camera with the keyboard
     game_context.camera.fovy += 1.0f * IsKeyDown(KEY_Q);
     game_context.camera.fovy -= 1.0f * IsKeyDown(KEY_E);
 

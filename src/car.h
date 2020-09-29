@@ -50,22 +50,34 @@ static void car_update_control(car_t* car){
     
     car->direction = QuaternionFromAxisAngle((Vector3){0, 1.0f, 0}, car->angle);
 
+    // Since we are in a 3D space, we need to use quaternions, 2D angles does not work on 3D unless you force it.
     car->acceleration = Vector3RotateByQuaternion(car->acceleration, car->direction);
 
     car->particle_head.position = Vector3Add(car->particle_head.position, car->acceleration);
 }
 
 void car_update(car_t* car, track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]){
+    /*
+    * It's important to calculate the cell where the particle is BEFORE updating the particle position, or else, 
+    * the adjusment at the end of the loop will be calculated with a wrong track tile
+    */
     particle_calculate_cel(&car->particle_head, track);
     particle_calculate_cel(&car->particle_tail, track);
 
+    // The controls of the car
     car_update_control(car);
 
+    /*
+    * The car is just 2 particles, back and tail, this creates the illusion of drift. The 
+    * car model is orientated on the two particles.
+    */
     particle_update(&car->particle_head, 0.95);
     particle_update(&car->particle_tail, 0.96);
 
+    // The particles must be 1 car appart, no more, no less.
     particle_fix_distance(&car->particle_head, &car->particle_tail);
 
+    // We fix the particle position based on the cell bounds.
     particle_restrict(&car->particle_head, 48.5f);
     particle_restrict(&car->particle_tail, 48.5f);
 }

@@ -26,13 +26,23 @@ void track_init(track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]);
 #ifdef TRACK_H_IMPLEMENTATION
 
 void track_init(track_cell_t track[MAP_SIZE_Z][MAP_SIZE_X]){
-        uint8_t map[MAP_SIZE_Z][MAP_SIZE_X] = {
-                        {1, 1, 1, 1, 1, 1, 1},
-                        {1, 0, 0, 0, 0, 0, 1},
-                        {1, 0, 1, 1, 1, 0, 1},
-                        {1, 1, 1, 0, 1, 1, 1},
-                        };
 
+    /* This is an array used to create the track. Collisions are calculated based on it.
+    * The constants MAP_SIZE_Z and MAP_SIZE_X are self explanatory. You need to modify them
+    * if you want a track of differnet characteristics.
+    * The constant MAP_ZOOM is how big are the tiles.
+    */
+
+    uint8_t map[MAP_SIZE_Z][MAP_SIZE_X] = {
+                    {1, 1, 1, 1, 1, 1, 1},
+                    {1, 0, 0, 0, 0, 0, 1},
+                    {1, 0, 1, 1, 1, 0, 1},
+                    {1, 1, 1, 0, 1, 1, 1},
+                    };
+    /* 
+    * This loop create an array of structs based on the map layout. The map layout is discarded after
+    * the precalculation
+    */
     for(int i = 0; i < MAP_SIZE_Z; i++){
         for(int j = 0; j < MAP_SIZE_X; j++){
             if((track[i][j].enabled = map[i][j])){

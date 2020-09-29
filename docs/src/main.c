@@ -69,6 +69,7 @@ int main(void)
         update_frame();
     }
 #endif
+    // There are some heap allocations we want to take care of.
     game_fini();
     CloseWindow();
 

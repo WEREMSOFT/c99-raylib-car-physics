@@ -4,10 +4,10 @@
 #include "track.h"
 
 typedef struct particle_t {
+    // In order to calculate the position with the speed implicit, we need actual and last position
     Vector3 position;
     Vector3 position_last;
     track_cell_t track_cell;
-    float mass_inverse;
 } particle_t;
 
 void particle_update(particle_t* particle, float drag);
