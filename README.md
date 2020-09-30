@@ -106,3 +106,8 @@ function restrict_particle(position)
 Done. We don't update the previous position, this will done automatically.
 
 This way we can have very realistics physiscs with a minimal code footprint.
+
+
+# Next Update
+
+In the next update I'll explain how to create relations between particles. 
