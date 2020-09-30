@@ -45,7 +45,7 @@ x += x - xp;
 xp = xtemp;
 ```
 
-Let's try it with numbers: previous position to 0, actual position to 10.
+Let's try it with numbers: previous position to 10, actual position to 20.
 
 ```
 xp = 10;
